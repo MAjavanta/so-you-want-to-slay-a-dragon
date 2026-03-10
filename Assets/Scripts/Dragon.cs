@@ -4,18 +4,26 @@ using UnityEngine.InputSystem;
 public class Dragon : MonoBehaviour
 {
 
-    [SerializeField] private float moveSpeed = 0.2f;
-    InputAction moveAction;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [SerializeField] private float moveSpeed = 1f;
+    private InputAction moveAction;
+    private Rigidbody2D rb;
+    private Vector2 moveValue;
+
+    private void Awake()
     {
         moveAction = InputSystem.actions.FindAction("Move");
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        Vector2 moveValue = moveAction.ReadValue<Vector2>() * moveSpeed;
-        transform.Translate(moveValue);
+        moveValue = moveAction.ReadValue<Vector2>();
+        //transform.Translate(moveValue);
     }
+
+    private void FixedUpdate()
+    {
+        rb.MovePosition(rb.position + (moveSpeed * Time.fixedDeltaTime * moveValue));
+    }
+
 }
