@@ -14,6 +14,8 @@ public class Attack : MonoBehaviour
     private float attackTimer = 1f;
     private LineRenderer debugLine;
 
+    public Vector2 FacingDirection { get; set; } = new(1, 0);
+
     private void Awake()
     {
         debugLine = GetComponent<LineRenderer>();
@@ -37,7 +39,7 @@ public class Attack : MonoBehaviour
         foreach (var collider in hits)
         {
             Vector2 directionToCollider = (collider.transform.position - attackSpawnPoint.position).normalized;
-            float angle = Vector2.Angle(attackSpawnPoint.right, directionToCollider);
+            float angle = Vector2.Angle(FacingDirection, directionToCollider);
             if (angle < attackAngle / 2f)
             {
                 print(collider);
@@ -48,7 +50,7 @@ public class Attack : MonoBehaviour
     void DrawAttackCone()
     {
         Vector3 center = attackSpawnPoint.position;
-        Vector2 attackDirection = attackSpawnPoint.right;
+        Vector2 attackDirection = FacingDirection;
 
         float halfAngle = attackAngle / 2f;
         int pointCount = debugSegments + 2;
@@ -79,7 +81,7 @@ public class Attack : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;
-        Vector3 forward = attackSpawnPoint.right;
+        Vector3 forward = FacingDirection;
 
         Quaternion leftRotation = Quaternion.Euler(0, 0, attackAngle / 2);
         Quaternion rightRotation = Quaternion.Euler(0, 0, -attackAngle / 2);
