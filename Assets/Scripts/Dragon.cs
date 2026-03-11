@@ -30,12 +30,12 @@ public class Dragon : MonoBehaviour
         if (moveValue.x > 0)
         {
             this.transform.localScale = new Vector3(1, 1, 1);
-            attack.FacingDirection = new Vector2(1, 0);
+            attack.SetFacingDirection(new Vector2(1, 0));
         }
         else if (moveValue.x < 0)
         {
             this.transform.localScale = new Vector3(-1, 1, 1);
-            attack.FacingDirection = new Vector2(-1, 0);
+            attack.SetFacingDirection(new Vector2(-1, 0));
         }
         rb.MovePosition(rb.position + (moveSpeed * Time.fixedDeltaTime * moveValue));
     }
