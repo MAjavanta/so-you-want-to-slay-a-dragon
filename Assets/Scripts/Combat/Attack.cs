@@ -38,11 +38,17 @@ public class Attack : MonoBehaviour
         Collider2D[] hits = Physics2D.OverlapCircleAll(attackSpawnPoint.position, attackRadius, attackableLayer);
         foreach (var collider in hits)
         {
+            IDamageable damageable = collider.GetComponent<IDamageable>();
+            if (damageable is null)
+            {
+                continue;
+            }
             Vector2 directionToCollider = (collider.transform.position - attackSpawnPoint.position).normalized;
             float angle = Vector2.Angle(facingDirection, directionToCollider);
             if (angle < attackAngle / 2f)
             {
-                print(collider);
+                damageable.TakeDamage(baseDamage);
+                print($"{this} deals {baseDamage} to {collider}");
             }
         }
     }
